@@ -367,8 +367,18 @@ let filtroTexto = '', filtroEstado = '';
 // ningún botón: se verían como respuestas en blanco pero contarían al exportar. Con la
 // escala en la clave, un cambio de instrumento empieza sesión nueva en vez de arrastrar
 // datos de otro.
+// El código de panelista entra en la clave SOLO si el cuaderno viene nominado, y esa
+// asimetría resuelve dos problemas opuestos:
+//
+//   · Nominado (`--panel` o `--asignacion`): el código no se puede cambiar —el campo es
+//     de solo lectura—, así que meterlo en la clave no puede perder trabajo, y evita que
+//     abrir dos cuadernos del mismo lote en el mismo navegador mezcle las sesiones. Le
+//     pasa a quien coordina cada vez que revisa lo que ha mandado.
+//   · Sin nominar: el código se teclea, y a menudo al final. Si estuviera en la clave,
+//     ponerlo movería la sesión a otra y el trabajo hecho desaparecería.
 const clave = () => [DATOS.ambito, DATOS.perfil, 'r' + DATOS.ronda,
-                     'c' + DATOS.categorias.length].join('|');
+                     'c' + DATOS.categorias.length,
+                     ...(DATOS.panelista ? [DATOS.panelista] : [])].join('|');
 const c = i => DATOS.conceptos[i];
 const resp = id => (EST.respuestas[id] ||= {});
 
