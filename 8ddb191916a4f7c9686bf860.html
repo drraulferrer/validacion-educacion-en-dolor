@@ -6,42 +6,72 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Validación por personas con dolor · D03t1</title>
 <style>
+  /* Paleta y tipografía del sistema «Clinical Clarity» del proyecto de Stitch «Pain
+     Education Delphi Panel». Los tokens están transcritos, no aproximados.
+
+     Lo que NO se trae de allí: Tailwind, Google Fonts y Material Symbols. Este cuaderno
+     no puede pedir nada a la red —se abre sin conexión, a veces desde un adjunto— así
+     que las utilidades se traducen a CSS propio, Inter se pide solo si está instalada y
+     los iconos se sustituyen por texto. El diseño es el mismo; la dependencia, ninguna. */
   :root {
-    --ground:#f7f9fa; --panel:#fff; --ink:#14303f; --ink-2:#5b7683;
-    --line:#dde5e9; --line-2:#eef3f5;
-    --teal:#2f7f8f; --teal-deep:#1d5866; --gold:#c9a227; --coral:#c25e4a;
-    --verde:#3f8f5f;
-    --shadow:0 1px 2px rgba(20,48,63,.06);
-    --texto:16px; --medida:34em;
+    --ground:#f8f9fa;          /* surface */
+    --panel:#ffffff;           /* surface-container-lowest */
+    --panel-2:#f3f4f5;         /* surface-container-low */
+    --ink:#191c1d;             /* on-surface */
+    --ink-2:#40484b;           /* on-surface-variant */
+    --line:#c0c8cb;            /* outline-variant */
+    --line-2:#e7e8e9;          /* surface-container-high */
+    --teal:#0d4f5c;            /* primary-container: acciones */
+    --teal-deep:#003741;       /* primary: barra lateral y texto con autoridad */
+    --teal-claro:#b3ecfb;      /* primary-fixed */
+    --verde:#3d6754;           /* secondary: progreso y acuerdo */
+    --verde-suave:#bfedd5;     /* secondary-container */
+    --gold:#504738;            /* tertiary-container: atención sin alarma */
+    --gold-suave:#f0e0cc;      /* tertiary-fixed */
+    --coral:#ba1a1a;           /* error */
+    --coral-suave:#ffdad6;     /* error-container */
+    --shadow:0 4px 12px rgba(0,0,0,.08);      /* nivel 1: tarjetas */
+    --shadow-2:0 8px 24px rgba(0,0,0,.12);    /* nivel 2: diálogos */
+    --r:4px; --r-lg:8px;       /* precisión en lo funcional, amabilidad en lo contenedor */
+    --texto:18px; --medida:70ch;   /* body-lg; 70 caracteres, como pide el sistema */
   }
+  /* El sistema es solo claro. La variante oscura se conserva —un panelista revisa de
+     noche y quince conceptos en blanco puro cansan— derivada de los mismos tonos. */
   @media (prefers-color-scheme: dark) {
     :root {
-      --ground:#0f171b; --panel:#16232a; --ink:#e4edf1; --ink-2:#93a9b4;
-      --line:#25373f; --line-2:#1d2c33; --teal:#5aa9b8; --teal-deep:#8ecad6;
-      --verde:#5fb082; --shadow:0 1px 2px rgba(0,0,0,.3);
+      --ground:#0f1416; --panel:#171d1f; --panel-2:#1d2427; --ink:#e1e3e4;
+      --ink-2:#bfc8cb; --line:#3f484b; --line-2:#232a2d;
+      --teal:#88bfce; --teal-deep:#97cfdf; --teal-claro:#0b4e5b;
+      --verde:#a4d0ba; --verde-suave:#254e3d; --gold:#d3c4b1; --gold-suave:#4f4537;
+      --coral:#ffb4ab; --coral-suave:#93000a;
+      --shadow:0 4px 12px rgba(0,0,0,.4); --shadow-2:0 8px 24px rgba(0,0,0,.5);
     }
   }
   /* El perfil de paciente no es el mismo diseño con otras etiquetas: el cuerpo de
      texto crece, la medida de línea se acorta y desaparece todo el cromo técnico.
      Se lee en un sofá y a veces con dolor. */
-  body.paciente { --texto:18.5px; --medida:30em; }
+  body.paciente { --texto:19px; --medida:60ch; }
 
   * { box-sizing:border-box; }
   body {
     margin:0; background:var(--ground); color:var(--ink);
-    font:16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font:16px/1.5 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing:antialiased;
   }
-  :focus-visible { outline:3px solid var(--gold); outline-offset:2px; border-radius:4px; }
+  :focus-visible { outline:2px solid var(--teal-deep); outline-offset:2px;
+    border-radius:var(--r); }
 
   /* --- Cabecera ----------------------------------------------------------- */
   header {
-    padding:14px 22px; border-bottom:1px solid var(--line); background:var(--panel);
+    padding:16px 40px; border-bottom:1px solid var(--line-2); background:var(--panel);
     display:flex; gap:16px; align-items:center; flex-wrap:wrap;
-    position:sticky; top:0; z-index:30; box-shadow:var(--shadow);
+    position:sticky; top:0; z-index:30;
   }
   header .marca { min-width:0; }
-  h1 { margin:0; font-size:17px; letter-spacing:-.01em; }
-  header .sub { color:var(--ink-2); font-size:12.5px; margin:2px 0 0; }
+  h1 { margin:0; font-size:24px; font-weight:600; line-height:32px;
+       letter-spacing:-.01em; }        /* headline-lg-mobile */
+  header .sub { color:var(--ink-2); font-size:14px; font-weight:500; margin:3px 0 0;
+                letter-spacing:.01em; }   /* label-md */
   header .hueco { flex:1 1 auto; }
   .chip {
     font-size:11.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
@@ -49,6 +79,12 @@
     white-space:nowrap;
   }
   .chip.ronda { background:var(--teal-deep); color:#fff; }
+  .contador { font-size:14px; font-weight:500; color:var(--ink-2); letter-spacing:.01em;
+    white-space:nowrap; }
+  .progreso-global { height:4px; background:var(--line-2); position:sticky; top:88px;
+    z-index:29; }
+  .progreso-global i { display:block; height:100%; transition:width .3s;
+    background:linear-gradient(90deg, var(--teal), var(--verde)); }
   .chip.guardado { background:transparent; color:var(--ink-2); text-transform:none;
     letter-spacing:0; font-weight:500; font-size:12px; }
   /* El código de panelista, siempre visible y siempre editable. Estaba en un `prompt()`
@@ -63,8 +99,9 @@
   .quien.falta input { border-color:var(--coral); background:rgba(194,94,74,.07); }
   .quien.falta span { color:var(--coral); font-weight:600; }
   button {
-    font:inherit; font-size:14px; padding:8px 13px; border-radius:6px; cursor:pointer;
-    border:1px solid var(--teal); background:var(--teal); color:#fff; font-weight:600;
+    font:inherit; font-size:14px; font-weight:500; letter-spacing:.01em;
+    padding:9px 16px; border-radius:var(--r); cursor:pointer;
+    border:1px solid var(--teal); background:var(--teal); color:#fff;
   }
   button.ghost { background:transparent; color:var(--teal-deep); border-color:var(--line);
     font-weight:500; }
@@ -84,46 +121,56 @@
   details.metodo .cuerpo { padding-bottom:14px; color:var(--ink-2); line-height:1.6; max-width:60em; }
   details.metodo li { margin-bottom:4px; }
 
-  /* --- Rejilla de tres columnas -------------------------------------------- */
-  main { display:grid; grid-template-columns:290px minmax(0,1fr) 380px; align-items:start; }
-  @media (max-width:1180px) { main { grid-template-columns:250px minmax(0,1fr); }
-    .juicio { grid-column:1 / -1; border-left:none; border-top:1px solid var(--line); position:static;
-      max-height:none; } }
-  @media (max-width:820px) { main { grid-template-columns:1fr; }
-    .lista { position:static; max-height:none; border-right:none;
-      border-bottom:1px solid var(--line); } }
+  /* --- Rejilla: barra lateral oscura + dos tarjetas ------------------------ */
+  main { display:grid; grid-template-columns:264px minmax(0,1fr) 400px; align-items:start;
+         gap:24px; padding:24px 40px; max-width:1280px; margin:0 auto; }
+  @media (max-width:1180px) { main { grid-template-columns:240px minmax(0,1fr); padding:20px; }
+    .juicio { grid-column:1 / -1; position:static; max-height:none; } }
+  @media (max-width:820px) { main { grid-template-columns:1fr; padding:16px; }
+    .lista { position:static; max-height:none; } }
 
-  /* --- Columna 1: la cola -------------------------------------------------- */
-  .lista { background:var(--panel); border-right:1px solid var(--line);
-    position:sticky; top:63px; max-height:calc(100vh - 63px); overflow-y:auto; padding:14px; }
-  .avance { margin-bottom:12px; }
-  .barra { height:7px; border-radius:4px; background:var(--line-2); overflow:hidden; }
-  .barra i { display:block; height:100%; background:var(--verde); transition:width .3s; }
-  .avance .txt { font-size:12.5px; color:var(--ink-2); margin-top:5px; }
-  .filtros { display:flex; gap:6px; margin-bottom:9px; flex-wrap:wrap; }
-  .filtros select, .filtros input {
-    flex:1 1 auto; min-width:0; padding:6px 8px; border:1px solid var(--line); border-radius:6px;
-    background:var(--ground); color:var(--ink); font-size:13px; font-family:inherit;
+  /* --- Columna 1: la cola, sobre el azul profundo -------------------------- */
+  .lista { background:var(--teal-deep); color:#fff; border-radius:var(--r-lg);
+    position:sticky; top:88px; max-height:calc(100vh - 112px); overflow-y:auto;
+    padding:20px 16px; box-shadow:var(--shadow); }
+  .lista .rotulo { font-size:12px; font-weight:500; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--teal-claro); margin:0 0 12px; }
+  .avance { margin-bottom:18px; }
+  .barra { height:8px; border-radius:9999px; background:rgba(255,255,255,.18);
+    overflow:hidden; }
+  .barra i { display:block; height:100%; border-radius:9999px; transition:width .3s;
+    background:linear-gradient(90deg, var(--teal-claro), #a4d0ba); }
+  .avance .txt { font-size:12px; color:rgba(255,255,255,.72); margin-top:6px; }
+  .filtros { display:flex; gap:6px; margin-bottom:12px; flex-wrap:wrap; }
+  .lista .filtros select, .lista .filtros input[type=text] {
+    flex:1 1 auto; min-width:0; padding:7px 9px; border:1px solid rgba(255,255,255,.22);
+    border-radius:var(--r); background:rgba(255,255,255,.08); color:#fff;
+    font-size:13px; font-family:inherit;
   }
+  .lista .filtros input::placeholder { color:rgba(255,255,255,.5); }
   .fila {
-    display:flex; gap:8px; align-items:flex-start; width:100%; text-align:left;
-    padding:8px 9px; border:1px solid transparent; border-radius:7px; cursor:pointer;
-    background:transparent; color:var(--ink); font-weight:400; font-size:13.5px; line-height:1.35;
+    display:flex; gap:9px; align-items:flex-start; width:100%; text-align:left;
+    padding:9px 10px; border:1px solid transparent; border-radius:var(--r); cursor:pointer;
+    background:transparent; color:rgba(255,255,255,.88); font-weight:400; font-size:13.5px;
+    line-height:1.4; margin-bottom:2px;
   }
-  .fila:hover { background:var(--line-2); filter:none; }
-  .fila.activa { background:var(--line-2); border-color:var(--teal); }
-  .punto { flex:0 0 auto; width:9px; height:9px; border-radius:50%; margin-top:5px;
-    background:var(--line); border:1px solid var(--ink-2); }
-  .punto.completo { background:var(--verde); border-color:var(--verde); }
-  .punto.parcial  { background:var(--gold); border-color:var(--gold); }
-  .punto.veto     { background:var(--coral); border-color:var(--coral); }
-  .fila .cod { font-size:11px; color:var(--ink-2); font-variant-numeric:tabular-nums; }
+  .fila:hover { background:rgba(255,255,255,.08); filter:none; }
+  .fila.activa { background:rgba(255,255,255,.14); border-color:rgba(255,255,255,.28);
+    color:#fff; font-weight:500; }
+  .punto { flex:0 0 auto; width:8px; height:8px; border-radius:50%; margin-top:6px;
+    background:transparent; border:1.5px solid rgba(255,255,255,.45); }
+  .punto.completo { background:var(--verde-suave); border-color:var(--verde-suave); }
+  .punto.parcial  { background:var(--gold-suave); border-color:var(--gold-suave); }
+  .punto.veto     { background:#ffb4ab; border-color:#ffb4ab; }
+  .fila .cod { font-size:11px; color:rgba(255,255,255,.55);
+    font-variant-numeric:tabular-nums; }
 
   /* --- Columna 2: el concepto ---------------------------------------------- */
-  .visor { padding:22px 26px; min-width:0; }
+  .visor { min-width:0; background:var(--panel); border:1px solid var(--line-2);
+    border-radius:var(--r-lg); padding:24px; box-shadow:var(--shadow); }
   .ficha { display:flex; gap:7px; flex-wrap:wrap; margin-bottom:6px; }
-  .visor h2 { font-size:23px; line-height:1.25; margin:4px 0 14px; letter-spacing:-.015em;
-    max-width:var(--medida); }
+  .visor h2 { font-size:20px; font-weight:600; line-height:28px; margin:6px 0 16px;
+    max-width:var(--medida); }   /* title-md */
   /* El perfil de paciente no encabeza con el título del concepto —es lenguaje para el
      profesional y adelantaría la idea que el texto debe transmitir por sí solo—, así que
      lo que ordena la lectura es el número de orden. */
@@ -131,19 +178,20 @@
     color:var(--teal-deep); margin:0 0 10px; font-weight:700; }
   .entradilla { font-size:14px; color:var(--ink-2); margin:0 0 20px; max-width:var(--medida); }
   .aviso-controversia, .aviso-fundamento {
-    margin:0 0 16px; padding:11px 14px; border-left:3px solid var(--gold);
-    background:var(--line-2); font-size:13.5px; border-radius:0 6px 6px 0; line-height:1.55;
+    margin:0 0 16px; padding:14px 16px; border-left:3px solid var(--gold);
+    background:var(--gold-suave); font-size:14px; border-radius:0 var(--r) var(--r) 0;
+    line-height:22px; color:var(--ink);
   }
   .aviso-controversia b, .aviso-fundamento b { color:var(--ink); }
   .seccion { margin-bottom:22px; max-width:var(--medida); }
-  .seccion h3 { font-size:12px; text-transform:uppercase; letter-spacing:.07em;
-    color:var(--teal-deep); margin:0 0 7px; }
-  .seccion p { font-size:var(--texto); line-height:1.7; margin:0 0 11px; }
+  .seccion h3 { font-size:12px; font-weight:500; text-transform:uppercase;
+    letter-spacing:.06em; color:var(--ink-2); margin:0 0 8px; }
+  .seccion p { font-size:var(--texto); line-height:30px; margin:0 0 14px; }
   .seccion ul { margin:0 0 11px; padding-left:22px; }
   .seccion li { font-size:var(--texto); line-height:1.65; margin-bottom:6px; }
   body.paciente .seccion p, body.paciente .seccion li { line-height:1.8; }
-  .apoyo { max-width:var(--medida); border:1px solid var(--line); border-radius:8px;
-    background:var(--panel); margin-bottom:20px; }
+  .apoyo { max-width:var(--medida); border:1px solid var(--line-2);
+    border-radius:var(--r-lg); background:var(--panel-2); margin-bottom:20px; }
   .apoyo summary { cursor:pointer; padding:11px 14px; font-size:13.5px; font-weight:600;
     color:var(--teal-deep); }
   .apoyo .cuerpo { padding:0 14px 12px; }
@@ -158,10 +206,15 @@
     padding-top:16px; border-top:1px solid var(--line); }
 
   /* --- Columna 3: el instrumento ------------------------------------------- */
-  .juicio { background:var(--panel); border-left:1px solid var(--line); padding:18px 20px;
-    position:sticky; top:63px; max-height:calc(100vh - 63px); overflow-y:auto; }
-  .juicio h3 { font-size:12px; text-transform:uppercase; letter-spacing:.07em;
-    color:var(--teal-deep); margin:0 0 3px; }
+  .juicio { background:var(--panel); border:1px solid var(--line-2);
+    border-radius:var(--r-lg); padding:24px; box-shadow:var(--shadow);
+    position:sticky; top:88px; max-height:calc(100vh - 112px); overflow-y:auto; }
+  .juicio h3 { font-size:12px; font-weight:500; text-transform:uppercase;
+    letter-spacing:.06em; color:var(--ink-2); margin:0 0 4px; }
+  .juicio > .titulo { font-size:20px; font-weight:600; line-height:28px; margin:0 0 4px;
+    color:var(--ink); }
+  .juicio > .entrada { font-size:14px; color:var(--ink-2); margin:0 0 20px;
+    line-height:20px; }
   .dim { margin-bottom:20px; padding-bottom:18px; border-bottom:1px solid var(--line-2); }
   .dim:last-of-type { border-bottom:none; }
   .dim .preg { font-size:14.5px; line-height:1.45; margin:0 0 4px; font-weight:550; }
@@ -179,15 +232,19 @@
      acuerdo» no cabe en un botón de un cuarto de ancho y abreviarlo devolvería el
      problema que las etiquetas vienen a resolver. */
   .escala.cuatro { flex-direction:column; gap:5px; }
-  .escala.cuatro label { display:flex; align-items:center; gap:10px; text-align:left;
-    padding:9px 11px; font-weight:500; }
+  .escala.cuatro label { display:flex; align-items:center; gap:12px; text-align:left;
+    padding:11px 13px; font-weight:400; font-size:14px; border-radius:var(--r);
+    transition:border-color .12s, background .12s; }
   .escala.cuatro .num { flex:0 0 auto; width:20px; height:20px; border-radius:50%;
     background:var(--line-2); color:var(--ink-2); font-size:11.5px; font-weight:700;
     display:inline-flex; align-items:center; justify-content:center; }
   .escala.cuatro label.puesta .num { background:rgba(255,255,255,.25); color:#fff; }
   .escala label:hover { border-color:var(--teal); }
+  .escala label:has(input:focus-visible) { outline:2px solid var(--teal-deep);
+    outline-offset:1px; }
   .escala input { position:absolute; opacity:0; width:0; height:0; }
-  .escala label.puesta { background:var(--teal); border-color:var(--teal); color:#fff; }
+  .escala label.puesta { background:var(--teal); border-color:var(--teal); color:#fff;
+    font-weight:500; }
   .escala label.baja.puesta { background:var(--coral); border-color:var(--coral); }
   .anclas { display:flex; justify-content:space-between; font-size:11.5px; color:var(--ink-2);
     margin-top:5px; gap:10px; }
@@ -231,9 +288,12 @@
   .bandera-ayuda { font-size:12px; color:var(--ink-2); margin:0 0 6px 24px; line-height:1.4; }
 
   textarea, input[type=text], select.campo {
-    width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:6px;
-    background:var(--ground); color:var(--ink); font-size:14px; font-family:inherit;
-    line-height:1.5; resize:vertical;
+    width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:var(--r);
+    background:var(--panel); color:var(--ink); font-size:14px; font-family:inherit;
+    line-height:20px; resize:vertical;
+  }
+  textarea:focus, input[type=text]:focus, select.campo:focus {
+    outline:none; border:2px solid var(--teal-deep); padding:9px 11px;
   }
   label.et { display:block; font-size:12.5px; color:var(--ink-2); margin:10px 0 4px; }
   .frases { margin-top:7px; }
@@ -250,8 +310,9 @@
   .rapido { margin-bottom:14px; padding:10px 12px; background:var(--line-2); border-radius:7px; }
   .rapido .txt { font-size:12.5px; color:var(--ink-2); margin-bottom:7px; line-height:1.45; }
 
-  dialog { border:1px solid var(--line); border-radius:10px; background:var(--panel);
-    color:var(--ink); max-width:640px; width:92vw; padding:24px; box-shadow:0 12px 40px rgba(0,0,0,.25); }
+  dialog { border:1px solid var(--line-2); border-radius:var(--r-lg);
+    background:var(--panel); color:var(--ink); max-width:640px; width:92vw; padding:32px;
+    box-shadow:var(--shadow-2); }
   dialog::backdrop { background:rgba(10,25,32,.55); }
   dialog h2 { margin:0 0 10px; font-size:19px; }
   dialog p, dialog li { font-size:14px; line-height:1.6; color:var(--ink-2); }
@@ -277,6 +338,7 @@
   <span class="chip ronda">Ronda 1</span>
   <span class="chip" id="chip-perfil"></span>
   <button class="ghost mini" id="btn-perfil" hidden>Cambiar de perfil</button>
+  <span class="contador" id="contador"></span>
   <span class="chip guardado" id="guardado" aria-live="polite">—</span>
   <button class="ghost mini" id="btn-ayuda" title="Atajos de teclado">?</button>
   <button class="ghost mini" id="btn-cargar">Cargar respuestas</button>
@@ -290,6 +352,8 @@
   que tienes que enviar tú. Si borras los datos del navegador o cambias de ordenador, se pierde
   lo no exportado.
 </div>
+
+<div class="progreso-global"><i id="barra-global" style="width:0%"></i></div>
 
 <details class="metodo">
   <summary>Cómo se cuenta lo que respondas, y por qué se cuenta así</summary>
@@ -340,7 +404,7 @@
 </dialog>
 
 <script>
-const DATOS = {"ambito":"D03t1","ambito_nombre":"","perfil":"paciente","ronda":1,"generado":"2026-07-31","umbrales":{"categorias":4,"aiken":0.7,"exigir_ic":true,"minimo_panel":5,"desacuerdo":0.3,"rondas_max":3,"estable_v":0.1,"comprension_minima":0.75,"minimo_paciente":3},"dimensiones":{"correccion":{"nombre":"Corrección técnica","pregunta":"Lo que este concepto afirma es correcto tal como está redactado.","ayuda":"Valora lo que dice, no cómo lo dice. Si algo es falso o está a medias, baja y dilo en el comentario: la reescritura es nuestra."},"evidencia":{"nombre":"Suficiencia de la evidencia","pregunta":"Las fuentes que cita sostienen lo que se les atribuye, y bastan para el tipo de afirmación que hace.","ayuda":"La exigencia no es la misma para una definición que para una afirmación de eficacia. Arriba se indica qué se le pide a esta."},"pertinencia":{"nombre":"Pertinencia en el corpus","pregunta":"Este concepto merece estar en la base de conocimiento, con este recorte y en este módulo.","ayuda":"Es la pregunta de un Delphi clásico: no si es verdad, sino si importa. Un concepto puede ser impecable y sobrar."}},"banderas":{"seguridad":{"etiqueta":"Puede inducir una decisión clínica insegura","veto":true,"ayuda":"Una sola marca de un solo panelista bloquea la publicación, aunque el resto del panel esté de acuerdo. No se resuelve por mayoría."},"certeza":{"etiqueta":"La certeza declarada no es la correcta","veto":false,"ayuda":"Marca y propón cuál debería ser."},"fronteras":{"etiqueta":"Problema de frontera: se solapa, sobra o son dos conceptos","veto":false,"ayuda":"Indica con qué concepto se solapa o por dónde lo partirías."},"caduco":{"etiqueta":"Hay literatura posterior que esto no recoge","veto":false,"ayuda":"Si puedes, adjunta la referencia abajo: es la aportación más útil de todas."}},"categorias":[[1,"Nada de acuerdo"],[2,"Poco de acuerdo"],[3,"Bastante de acuerdo"],[4,"Totalmente de acuerdo"]],"comprension":[["si","Se entiende a la primera",1.0],["casi","Casi: hay algo que se atraganta",0.5],["no","No se entiende",0.0]],"efecto":[["calma","Con más calma, y con algo que puedo hacer hoy"],["igual","Igual que antes de leerlo"],["peor","Con más preocupación que antes"]],"vetos":[["exagero","Suena a que exagero o a que me lo invento"],["culpa","Suena a que la culpa es mía"],["sin_arreglo","Suena a que esto no tiene arreglo"],["no_creen","Suena a que no me creen"],["miedo","Me asusta"],["palabras","Hay palabras que no significan nada para mí"]],"exigencias":{"definicional":"fuente normativa (IASP, CIE-11, guía oficial)","descriptivo":"una revisión o dos estudios primarios","causal":"dos fuentes o más, y declaración explícita de la limitación causal","eficacia":"revisión sistemática o guía de práctica clínica; nunca un solo ensayo","pronostico":"estudio de cohortes o revisión","normativo":"guía, documento de consenso o marca explícita de opinión del autor"},"conceptos":[{"id":"CPT-00598","secciones":{"explicacion_paciente":"Cuando te preguntamos y te exploramos, no estamos rellenando una ficha.\n\nEstamos intentando saber lo justo para poder proponerte algo con sentido.\n\nPor eso no te preguntamos todo lo imaginable, y por eso a veces no hace falta una prueba.\n\nSi un dato no va a cambiar lo que hagamos, pedirlo solo añade espera y preocupación.\n\nEso no significa que no te vayamos a escuchar del todo: significa que escuchamos con un objetivo.\n\nY si en algún momento no entiendes para qué sirve algo que te preguntan, puedes preguntarlo.\n\nLo que puedes hacer hoy: antes de tu próxima consulta, escribe la pregunta que más te importa que te respondan. Eso ordena la evaluación mejor que cualquier lista."}},{"id":"CPT-00599","secciones":{"explicacion_paciente":"Antes de pedirte una prueba conviene hacerse una pregunta sencilla.\n\nSi sale de una manera, ¿cambia algo de lo que vamos a hacer? ¿Y si sale de otra?\n\nSi la respuesta es que no cambia nada, esa prueba no te va a ayudar.\n\nY no es inofensiva: en dolor de espalda, las resonancias precoces sin necesidad se han acompañado de peores resultados.\n\nEso no significa que las pruebas sean malas. Significa que tienen que servir para algo concreto.\n\nSi te preocupa no hacerte una, dilo. Es una conversación legítima y hay que tenerla.\n\nLo que puedes hacer hoy: si te ofrecen o te niegan una prueba, pregunta qué cambiaría según el resultado. Es la pregunta más útil que puedes hacer."}},{"id":"CPT-00600","secciones":{"explicacion_paciente":"Al final de una valoración, lo normal es esperar un nombre.\n\nUn nombre ayuda a veces, y en el dolor persistente suele explicar menos de lo que promete.\n\nPor eso aquí buscamos otra cosa: entender qué te pasa, qué lo está manteniendo y qué te impide hacer.\n\nCon eso se puede empezar por algún sitio, que es lo que de verdad te interesa.\n\nSi te ponemos un nombre, te diremos también qué significa y qué no significa.\n\nY si algo de lo que te contemos no te encaja, dilo: esto se corrige mucho más fácil que una etiqueta.\n\nLo que puedes hacer hoy: piensa en una actividad concreta que hayas dejado. Ese dato es la parte de tu evaluación que nadie puede aportar salvo tú."}},{"id":"CPT-00601","secciones":{"explicacion_paciente":"Cuando te valoramos, no solo recogemos información: también te estamos contando algo.\n\nSi te pedimos una radiografía, te estamos diciendo sin palabras que la respuesta está en la foto.\n\nSi te preguntamos solo cuánto te duele, te estamos diciendo que eso es lo importante.\n\nPor eso conviene que te expliquemos para qué hacemos cada cosa, antes de hacerla.\n\nY si te encontramos algo en una prueba, tienes derecho a saber cuánta gente sin dolor tiene lo mismo.\n\nEse dato cambia bastante lo que significa el hallazgo.\n\nLo que puedes hacer hoy: si te exploran o te piden algo y no sabes para qué, pregúntalo en el momento. «¿Qué estás buscando con esto?» es una buena pregunta."}},{"id":"CPT-00602","secciones":{"explicacion_paciente":"En tu historia clínica está lo que te preguntaron, no todo lo que te pasa.\n\nSi nadie te preguntó por cómo duermes o por tu trabajo, ahí no aparece.\n\nY quien te atienda después lo va a leer como si no importara.\n\nPor eso lo que tú cuentes sin que te lo pregunten es información valiosa, no una interrupción.\n\nSi algo te parece importante y no te lo preguntan, dilo tú.\n\nCosas como el sueño, el trabajo, quién depende de ti o el dinero cambian mucho el plan.\n\nLo que puedes hacer hoy: escribe tres cosas de tu vida que creas que influyen en tu dolor y llévalas a la próxima consulta. Empieza por la que nadie te ha preguntado nunca."}},{"id":"CPT-00603","secciones":{"explicacion_paciente":"En la primera visita solemos preguntar dónde duele y cuánto.\n\nEs información útil, y no es la más importante para el plan.\n\nLo que más nos ayuda es saber qué has dejado de hacer.\n\nQué actividad has abandonado, qué haces a medias y qué haces pagando un precio después.\n\nEso nos dice por dónde empezar, y nos da una forma de comprobar si vas mejor.\n\nPorque puedes ir mejorando aunque el dolor tarde en bajar: si haces más cosas, algo se está moviendo.\n\nLo que puedes hacer hoy: escribe tres cosas que hayas dejado por el dolor y ordénalas por lo que te importan. Esa lista vale más que un número."}},{"id":"CPT-00604","secciones":{"explicacion_paciente":"Una valoración no es un examen que te hacen: es algo que hacemos contigo.\n\nEso significa tres cosas concretas.\n\nQue lo que tú quieras conseguir cuenta para decidir qué miramos.\n\nQue te vamos a contar qué hemos entendido de tu problema, para que puedas corregirnos.\n\nY que antes de explorarte te diremos qué estamos buscando.\n\nSi en algo de lo que te contamos te reconoces a medias, dilo. Corregirlo temprano ahorra meses.\n\nLo que puedes hacer hoy: piensa qué quieres poder hacer dentro de tres meses y llévalo dicho. Es el dato que más cambia una valoración."}},{"id":"CPT-00605","secciones":{"explicacion_paciente":"Cuando se usa una prueba o un cuestionario, hay tres cosas que conviene que cumpla.\n\nQue salga igual si se repite. Que mida de verdad lo que dice medir. Y que sirva para decidir algo.\n\nParecen lo mismo y no lo son.\n\nHay pruebas muy repetibles que no informan de nada, y cuestionarios correctos que no cambian nada.\n\nPor eso, si en tu valoración te piden rellenar algo, es razonable preguntar para qué se va a usar.\n\nSi la respuesta es «para tener un registro», tienes derecho a saberlo.\n\nLo que puedes hacer hoy: nada en particular. Este concepto está aquí para que quien te atienda pueda justificar lo que te pide."}},{"id":"CPT-00606","secciones":{"explicacion_paciente":"Que en una prueba se vea algo no significa que eso sea la causa de tu dolor.\n\nPara pensar que lo es, hacen falta tres cosas.\n\nQue no sea algo que tenga también mucha gente sin dolor. Y muchas cosas que se ven lo son.\n\nQue encaje con tu historia: con dónde te duele, con cuándo empezó, con qué te lo cambia.\n\nY que sirva para predecir algo, para poder comprobar si acertamos.\n\nSi no se puede comprobar, no es una explicación: es una suposición con nombre técnico.\n\nLo que puedes hacer hoy: si te dicen que la causa es X, pregunta qué esperarían ver si eso fuera cierto. Es una pregunta muy buena y ordena el plan."}},{"id":"CPT-00607","secciones":{"explicacion_paciente":"Volver a valorarte no es empezar de cero ni desconfiar de lo anterior.\n\nEn la primera visita hacemos una idea de lo que te pasa y decimos qué esperaríamos ver si acertamos.\n\nEn la siguiente comprobamos si eso ha ocurrido.\n\nSi ha ocurrido, seguimos. Si no, cambiamos de idea, y eso es buena señal, no un fallo.\n\nPor eso a veces te preguntamos cosas que parecen repetidas: estamos comparando, no rellenando otra vez.\n\nY si algo nuevo ha aparecido, es el momento de decirlo aunque parezca menor.\n\nLo que puedes hacer hoy: apunta una cosa concreta que hoy no puedes hacer. En la próxima visita la miramos, y así sabremos si algo se ha movido."}},{"id":"CPT-00608","secciones":{"explicacion_paciente":"Llega un momento en que seguir buscando no ayuda.\n\nEse momento es cuando ninguna prueba nueva cambiaría lo que vamos a hacer.\n\nY hay que decirlo claro, porque seguir buscando tiene precio.\n\nCada prueba de más alarga la espera, refuerza la idea de que la respuesta está en una foto y retrasa empezar.\n\nEso no significa que no te pase nada, y nadie debería decirte esa frase.\n\nSignifica que no hemos encontrado nada que obligue a buscar más hoy, y que hay cosas que sí podemos hacer.\n\nSi aparece algo nuevo, se vuelve a mirar. Cerrar no es cerrar para siempre.\n\nLo que puedes hacer hoy: si te dicen que no hacen falta más pruebas, pide que te digan tres cosas —qué han descartado, qué queda sin saber y qué se va a hacer ahora—."}},{"id":"CPT-00609","secciones":{"explicacion_paciente":"Conviene decirte con claridad qué puede y qué no puede darte una valoración.\n\nEn la mayoría de los dolores que duran, no vamos a poder señalar una causa única. No porque no se busque bien, sino porque casi nunca la hay.\n\nTampoco podemos predecir con exactitud cómo va a evolucionar lo tuyo.\n\nY ninguna prueba va a hacer que te sientas comprendido: eso se consigue hablando, no midiendo.\n\nLo que sí podemos hacer es descartar lo que hay que descartar, entender qué mantiene tu problema y empezar por algún sitio.\n\nY comprobar juntos si funciona, con una fecha.\n\nSaber la causa exacta ayuda menos de lo que parece. Poder hacer algo, ayuda más.\n\nLo que puedes hacer hoy: si estás esperando una prueba que lo explique todo, pregúntate qué harías distinto si el resultado llegara mañana. Muchas veces la respuesta señala por dónde empezar ya."}},{"id":"CPT-00610","secciones":{"explicacion_paciente":"Lo que nos cuentas es la parte más importante de la valoración.\n\nMás que una radiografía, y más que cualquier prueba.\n\nPorque hay cosas que solo tú sabes: cómo empezó, qué has probado, qué has dejado de hacer, qué te preocupa.\n\nNada de eso sale en una imagen.\n\nPor eso conviene que vengas con lo importante pensado, y que no des por hecho que algo «no viene a cuento».\n\nSi tienes dudas de si contarlo, cuéntalo.\n\nLo que puedes hacer hoy: escribe en dos líneas lo que más te importa resolver. Es lo primero que conviene decir en la consulta, no lo último."}},{"id":"CPT-00611","secciones":{"explicacion_paciente":"Al principio de la consulta te van a preguntar qué te trae.\n\nAhí conviene decir todo lo que traes, aunque sean tres cosas.\n\nSe ha estudiado y suele pasar que, en cuanto dices la primera, te interrumpen.\n\nOcurre en unos once segundos, y no es mala intención: es la prisa por empezar a acotar.\n\nSi te interrumpen, puedes decir tranquilamente: «espera, que traía dos cosas más».\n\nNadie tarda mucho en enunciar sus preocupaciones: en los estudios, seis segundos de media.\n\nLo que puedes hacer hoy: apunta en el móvil las cosas que traes a la próxima consulta y dilas todas al principio, no al final."}},{"id":"CPT-00612","secciones":{"explicacion_paciente":"La mayoría de las personas no cuenta en la consulta todo lo que trae.\n\nY lo que se queda dentro no suele ser lo menos importante.\n\nSe callan los miedos —lo que uno teme que sea—, las ideas propias sobre qué está pasando y lo que está complicando la vida fuera de la consulta.\n\nTambién se calla, muchas veces, que uno no quiere un tratamiento que le están proponiendo.\n\nEso pasa factura después: se entiende mal el plan, o se hace a medias, o no se hace.\n\nNo es que se oculte a propósito. Es que nadie lo pregunta y uno no sabe si viene a cuento.\n\nLo que puedes hacer hoy: escribe qué temes que sea tu problema. Aunque te parezca exagerado, es una de las cosas más útiles que puedes llevar dicho."}},{"id":"CPT-00613","secciones":{"explicacion_paciente":"Si has salido alguna vez de una consulta con la sensación de que no te creían, no eres una excepción.\n\nEs una experiencia muy común en dolor persistente, y tiene consecuencias.\n\nLa principal es que uno deja de contar cosas: aprende a decir lo justo para que le tomen en serio.\n\nY así la información que llega al profesional es peor, y las decisiones también.\n\nPor eso conviene decirlo. Si te ha pasado, cuéntalo al principio.\n\nAquí el punto de partida es que lo que sientes es real, se encuentre o no se encuentre algo en las pruebas.\n\nLo que puedes hacer hoy: si alguna frase de un profesional te dolió especialmente, escríbela. Llevarla dicha ahorra media consulta."}},{"id":"CPT-00614","secciones":{"explicacion_paciente":"En la consulta nos suelen preguntar cuánto duele y desde cuándo.\n\nEs útil, y no es lo que más ayuda a decidir.\n\nLo que más ayuda es la historia de lo que ha cambiado en tu vida.\n\nQué dejaste primero, qué vino después, qué te costó más dejar.\n\nY una pregunta que casi nadie hace: cuándo dejaste de intentar volver a ello.\n\nEso dibuja mejor tu problema que una curva de dolor, y señala por dónde se puede empezar.\n\nLo que puedes hacer hoy: haz una lista de tres cosas que dejaste, con el año aproximado. Esa lista vale para toda la valoración."}},{"id":"CPT-00615","secciones":{"explicacion_paciente":"Para entender tu problema hace falta saber en qué orden pasaron las cosas.\n\nNo hace falta que recuerdes fechas exactas: el orden importa más que el día.\n\nY no solo del dolor. También de lo demás.\n\nCuándo cambiaste de trabajo, cuándo te dieron aquel resultado, cuándo dejaste de salir.\n\nMuchas veces, al ponerlo en orden, aparecen relaciones que no se ven de otra manera.\n\nSi tienes una idea de qué lo provocó, dila. Es información importante, la compartamos o no.\n\nLo que puedes hacer hoy: escribe cinco momentos con el año aproximado. Con eso basta para tener una línea del tiempo útil."}},{"id":"CPT-00616","secciones":{"explicacion_paciente":"Cuando dices «esto ya lo probé», nos hace falta un poco más de detalle.\n\nQué hiciste exactamente, cuánto, durante cuánto tiempo y qué esperabas que pasara.\n\nNo es desconfianza: es que la mayoría de las cosas que «no funcionan» se hicieron a medias o se dejaron pronto.\n\nY hay una pregunta que cambia mucho: qué esperabas.\n\nSi esperabas que el dolor desapareciera y bajó un poco, quizá lo apuntaste como fracaso siendo una respuesta.\n\nCon esos datos evitamos repetirte lo mismo y perder meses.\n\nLo que puedes hacer hoy: haz una lista de lo que has probado, con cuánto tiempo lo hiciste y por qué lo dejaste. Es de lo más útil que puedes llevar."}},{"id":"CPT-00617","secciones":{"explicacion_paciente":"Que te duela otra vez en el mismo sitio no significa siempre lo mismo.\n\nA veces es un bache de lo de siempre. A veces es algo distinto.\n\nDistinguirlo no se hace con una prueba: se hace preguntando.\n\nY tu impresión cuenta mucho: si te parece que esto «es distinto a lo de siempre», dilo.\n\nLo que hace saltar las alarmas no es que duela más, sino que duela de otra manera o que haya aparecido algo nuevo.\n\nSi es un bache de lo conocido, no hay que empezar de cero.\n\nLo que puedes hacer hoy: si tienes un empeoramiento, apunta si se parece a los anteriores o no, y qué hay de distinto."}},{"id":"CPT-00618","secciones":{"explicacion_paciente":"Casi todo el mundo llega a la consulta con una idea de lo que le pasa.\n\nEsa idea nos importa, y bastante. No es una molestia ni una tontería.\n\nNos dice qué estás evitando y por qué, y nos ayuda a explicarte las cosas de manera que te encajen.\n\nPor eso te vamos a preguntar qué crees tú que está pasando.\n\nNo es un examen y no hay respuesta ridícula: si la has oído en algún sitio, cuéntalo también.\n\nSi al final resulta que hay que matizarla, lo hablamos, y no será desmintiéndote sin más.\n\nLo que puedes hacer hoy: escribe en una frase qué crees que te pasa. Con tus palabras, no con las del informe."}},{"id":"CPT-00619","secciones":{"explicacion_paciente":"Casi todo el mundo que tiene dolor durante tiempo tiene algún miedo en la cabeza.\n\nMiedo a que sea algo grave, o a acabar como alguien que conoce, o a no poder seguir trabajando.\n\nEso casi nunca se dice en consulta, y es una pena, porque es de lo más útil que se puede hablar.\n\nNo es exagerar ni ser aprensivo: es normal y es información.\n\nSi nadie te lo pregunta, puedes decirlo tú: «hay algo que me preocupa y no sé si es una tontería».\n\nY si te lo preguntan, conviene ser concreto: no es lo mismo temer una enfermedad que temer perder el trabajo.\n\nLo que puedes hacer hoy: escribe el peor escenario que se te pasa por la cabeza. Ponerlo en palabras suele hacerlo más manejable, y permite responderlo."}},{"id":"CPT-00620","secciones":{"explicacion_paciente":"La forma en que describes tu dolor nos dice mucho.\n\nNo por cómo hablas, sino por lo que imaginas que está pasando dentro.\n\nNo es lo mismo «me tira» que «se me sale» o «lo tengo desgastado»: cada expresión dibuja algo distinto.\n\nPor eso a veces te preguntamos qué te imaginas exactamente cuando dices una de esas frases.\n\nY por eso intentamos explicarte las cosas con tus palabras y no con las nuestras.\n\nSi algo que te decimos suena a idioma de hospital y no te dice nada, dilo.\n\nLo que puedes hacer hoy: fíjate en la frase que más usas para describir tu dolor. Y pregúntate qué imagen tienes en la cabeza cuando la dices."}},{"id":"CPT-00621","secciones":{"explicacion_paciente":"Lo que te han dicho otros profesionales cuenta, y nos interesa saberlo.\n\nNo para juzgar a nadie, sino porque esas frases se quedan y cambian lo que uno hace.\n\nHay gente que lleva diez años sin agacharse porque una vez le dijeron que no lo hiciera.\n\nY muchas veces esa recomendación era para dos semanas, no para siempre.\n\nPor eso te vamos a preguntar qué te han dicho y si hay alguna frase que se te quedó grabada.\n\nTambién qué te prohibieron, porque las prohibiciones casi nunca se retiran.\n\nLo que puedes hacer hoy: escribe la frase que más se te haya quedado de un profesional, con el año. Es un dato clínico, aunque no lo parezca."}},{"id":"CPT-00622","secciones":{"explicacion_paciente":"Vamos a hacer un mapa sencillo de tu problema, en tres columnas.\n\nQué te lo empeora. Qué te lo alivia. Y qué has dejado de hacer para no empeorar.\n\nLa tercera es la que menos se pregunta y la que más nos sirve.\n\nNo es una lista de errores: dejar de hacer cosas cuando algo duele es lo más razonable del mundo.\n\nLo que pasa es que, con el tiempo, algunas de esas renuncias dejan de ayudar y empiezan a costar.\n\nTambién nos interesa lo que haces aunque lo pagues después. Ese patrón es importante.\n\nLo que puedes hacer hoy: escribe las tres columnas con tres cosas en cada una. Con eso ya tenemos por dónde empezar."}},{"id":"CPT-00623","secciones":{"explicacion_paciente":"Para saber cómo te afecta el dolor, no vale con preguntarte «cómo lo llevas».\n\nVamos a ir por partes: trabajo, sueño, vida social, actividad y cuidados.\n\nDe cada una nos interesan dos cosas: qué queda de lo que hacías y qué hace que un día sea mejor o peor.\n\nEl sueño merece atención aparte, porque va en los dos sentidos: el dolor lo estropea y dormir mal lo empeora.\n\nY los cuidados también: si cuidas de alguien, eso ocupa un espacio que casi nunca se pregunta.\n\nNo es curiosidad: de ahí salen los objetivos concretos del plan.\n\nLo que puedes hacer hoy: elige el dominio que más te pesa ahora mismo y llévalo señalado. Por ahí conviene empezar."}},{"id":"CPT-00624","secciones":{"explicacion_paciente":"Vamos a preguntarte por tu trabajo y por cómo te afecta económicamente esto.\n\nNo es curiosidad ni es para juzgarte: es para no proponerte cosas que no puedas hacer.\n\nNos interesa qué haces exactamente durante el día, cuánto puedes cambiarlo y qué pasa si faltas.\n\nY también qué te cuesta a ti venir aquí, en tiempo y en dinero.\n\nUn plan que no encaja con tu vida no es un buen plan, por muy correcto que sea sobre el papel.\n\nSi algo de lo que te proponemos es inviable, dilo. Se cambia.\n\nLo que puedes hacer hoy: piensa qué margen real tienes en tu jornada. Aunque sea pequeño, por ahí se empieza."}},{"id":"CPT-00625","secciones":{"explicacion_paciente":"Hay dos preguntas que casi nunca se hacen y que aquí sí vamos a hacerte.\n\nCon quién cuentas tú cuando esto se pone difícil.\n\nY si hay alguien que depende de ti: hijos, padres, alguien a quien cuidas.\n\nLo segundo cambia mucho el plan. Si cuidas de alguien, no puedes permitirte estar peor unos días.\n\nEso hay que tenerlo en cuenta desde el principio, no descubrirlo cuando algo no ha funcionado.\n\nY si has dejado de contar en casa cómo estás, también es útil saberlo.\n\nLo que puedes hacer hoy: piensa a quién cuidas y cuántas horas al día te lleva. Aunque sea «lo de siempre», cuenta."}},{"id":"CPT-00626","secciones":{"explicacion_paciente":"Antes de terminar, quien te atiende debería resumirte lo que ha entendido.\n\nQué te pasa, qué te preocupa, qué quieres conseguir y qué queda por aclarar.\n\nY después debería preguntarte qué ha entendido mal.\n\nEsa pregunta es importante: significa que se da por hecho que algo se ha quedado fuera, y te da permiso para corregir.\n\nSi el resumen no te suena a lo tuyo, dilo aunque parezca un detalle.\n\nEs mucho más fácil arreglarlo ahí que tres meses después.\n\nLo que puedes hacer hoy: si nadie te resume nada, pídelo tú. «¿Me puedes decir qué has entendido?» es una pregunta perfectamente legítima."}},{"id":"CPT-00627","secciones":{"explicacion_paciente":"Una buena conversación en consulta da mucho, y no lo da todo.\n\nNo garantiza que salga todo lo importante: a veces hace falta más de una visita, y no pasa nada.\n\nNo sustituye a explorarte ni a descartar lo que haya que descartar.\n\nY no arregla en un día la desconfianza de años, si la hay.\n\nTampoco cambia tus circunstancias: si tu trabajo es duro, saberlo nos sirve para no proponerte imposibles, no para hacerlo desaparecer.\n\nLo que sí hace es reunir lo que hace falta para decidir contigo por dónde empezar.\n\nLo que puedes hacer hoy: si algo importante no salió en la consulta, apúntalo para la siguiente. No hace falta que salga todo el primer día."}}],"panelista":"PAC-02","feedback":{},"envio":{"url":"https://mmwytewpfnckymjxldye.supabase.co/rest/v1/respuestas_consenso","cabeceras":{"apikey":"sb_publishable_PsEfAcuH5Q3UMMff7HlhFA_mDQlvzpl","Authorization":"Bearer sb_publishable_PsEfAcuH5Q3UMMff7HlhFA_mDQlvzpl","Prefer":"return=minimal"},"envolver":"payload"}};
+const DATOS = {"ambito":"D03t1","ambito_nombre":"","perfil":"paciente","ronda":1,"generado":"2026-08-02","umbrales":{"categorias":4,"aiken":0.7,"exigir_ic":true,"minimo_panel":5,"desacuerdo":0.3,"rondas_max":3,"estable_v":0.1,"comprension_minima":0.75,"minimo_paciente":3},"dimensiones":{"correccion":{"nombre":"Corrección técnica","pregunta":"Lo que este concepto afirma es correcto tal como está redactado.","ayuda":"Valora lo que dice, no cómo lo dice. Si algo es falso o está a medias, baja y dilo en el comentario: la reescritura es nuestra."},"evidencia":{"nombre":"Suficiencia de la evidencia","pregunta":"Las fuentes que cita sostienen lo que se les atribuye, y bastan para el tipo de afirmación que hace.","ayuda":"La exigencia no es la misma para una definición que para una afirmación de eficacia. Arriba se indica qué se le pide a esta."},"pertinencia":{"nombre":"Pertinencia en el corpus","pregunta":"Este concepto merece estar en la base de conocimiento, con este recorte y en este módulo.","ayuda":"Es la pregunta de un Delphi clásico: no si es verdad, sino si importa. Un concepto puede ser impecable y sobrar."}},"banderas":{"seguridad":{"etiqueta":"Puede inducir una decisión clínica insegura","veto":true,"ayuda":"Una sola marca de un solo panelista bloquea la publicación, aunque el resto del panel esté de acuerdo. No se resuelve por mayoría."},"certeza":{"etiqueta":"La certeza declarada no es la correcta","veto":false,"ayuda":"Marca y propón cuál debería ser."},"fronteras":{"etiqueta":"Problema de frontera: se solapa, sobra o son dos conceptos","veto":false,"ayuda":"Indica con qué concepto se solapa o por dónde lo partirías."},"caduco":{"etiqueta":"Hay literatura posterior que esto no recoge","veto":false,"ayuda":"Si puedes, adjunta la referencia abajo: es la aportación más útil de todas."}},"categorias":[[1,"Nada de acuerdo"],[2,"Poco de acuerdo"],[3,"Bastante de acuerdo"],[4,"Totalmente de acuerdo"]],"comprension":[["si","Se entiende a la primera",1.0],["casi","Casi: hay algo que se atraganta",0.5],["no","No se entiende",0.0]],"efecto":[["calma","Con más calma, y con algo que puedo hacer hoy"],["igual","Igual que antes de leerlo"],["peor","Con más preocupación que antes"]],"vetos":[["exagero","Suena a que exagero o a que me lo invento"],["culpa","Suena a que la culpa es mía"],["sin_arreglo","Suena a que esto no tiene arreglo"],["no_creen","Suena a que no me creen"],["miedo","Me asusta"],["palabras","Hay palabras que no significan nada para mí"]],"exigencias":{"definicional":"fuente normativa (IASP, CIE-11, guía oficial)","descriptivo":"una revisión o dos estudios primarios","causal":"dos fuentes o más, y declaración explícita de la limitación causal","eficacia":"revisión sistemática o guía de práctica clínica; nunca un solo ensayo","pronostico":"estudio de cohortes o revisión","normativo":"guía, documento de consenso o marca explícita de opinión del autor"},"conceptos":[{"id":"CPT-00598","secciones":{"explicacion_paciente":"Cuando te preguntamos y te exploramos, no estamos rellenando una ficha.\n\nEstamos intentando saber lo justo para poder proponerte algo con sentido.\n\nPor eso no te preguntamos todo lo imaginable, y por eso a veces no hace falta una prueba.\n\nSi un dato no va a cambiar lo que hagamos, pedirlo solo añade espera y preocupación.\n\nEso no significa que no te vayamos a escuchar del todo: significa que escuchamos con un objetivo.\n\nY si en algún momento no entiendes para qué sirve algo que te preguntan, puedes preguntarlo.\n\nLo que puedes hacer hoy: antes de tu próxima consulta, escribe la pregunta que más te importa que te respondan. Eso ordena la evaluación mejor que cualquier lista."}},{"id":"CPT-00599","secciones":{"explicacion_paciente":"Antes de pedirte una prueba conviene hacerse una pregunta sencilla.\n\nSi sale de una manera, ¿cambia algo de lo que vamos a hacer? ¿Y si sale de otra?\n\nSi la respuesta es que no cambia nada, esa prueba no te va a ayudar.\n\nY no es inofensiva: en dolor de espalda, las resonancias precoces sin necesidad se han acompañado de peores resultados.\n\nEso no significa que las pruebas sean malas. Significa que tienen que servir para algo concreto.\n\nSi te preocupa no hacerte una, dilo. Es una conversación legítima y hay que tenerla.\n\nLo que puedes hacer hoy: si te ofrecen o te niegan una prueba, pregunta qué cambiaría según el resultado. Es la pregunta más útil que puedes hacer."}},{"id":"CPT-00600","secciones":{"explicacion_paciente":"Al final de una valoración, lo normal es esperar un nombre.\n\nUn nombre ayuda a veces, y en el dolor persistente suele explicar menos de lo que promete.\n\nPor eso aquí buscamos otra cosa: entender qué te pasa, qué lo está manteniendo y qué te impide hacer.\n\nCon eso se puede empezar por algún sitio, que es lo que de verdad te interesa.\n\nSi te ponemos un nombre, te diremos también qué significa y qué no significa.\n\nY si algo de lo que te contemos no te encaja, dilo: esto se corrige mucho más fácil que una etiqueta.\n\nLo que puedes hacer hoy: piensa en una actividad concreta que hayas dejado. Ese dato es la parte de tu evaluación que nadie puede aportar salvo tú."}},{"id":"CPT-00601","secciones":{"explicacion_paciente":"Cuando te valoramos, no solo recogemos información: también te estamos contando algo.\n\nSi te pedimos una radiografía, te estamos diciendo sin palabras que la respuesta está en la foto.\n\nSi te preguntamos solo cuánto te duele, te estamos diciendo que eso es lo importante.\n\nPor eso conviene que te expliquemos para qué hacemos cada cosa, antes de hacerla.\n\nY si te encontramos algo en una prueba, tienes derecho a saber cuánta gente sin dolor tiene lo mismo.\n\nEse dato cambia bastante lo que significa el hallazgo.\n\nLo que puedes hacer hoy: si te exploran o te piden algo y no sabes para qué, pregúntalo en el momento. «¿Qué estás buscando con esto?» es una buena pregunta."}},{"id":"CPT-00602","secciones":{"explicacion_paciente":"En tu historia clínica está lo que te preguntaron, no todo lo que te pasa.\n\nSi nadie te preguntó por cómo duermes o por tu trabajo, ahí no aparece.\n\nY quien te atienda después lo va a leer como si no importara.\n\nPor eso lo que tú cuentes sin que te lo pregunten es información valiosa, no una interrupción.\n\nSi algo te parece importante y no te lo preguntan, dilo tú.\n\nCosas como el sueño, el trabajo, quién depende de ti o el dinero cambian mucho el plan.\n\nLo que puedes hacer hoy: escribe tres cosas de tu vida que creas que influyen en tu dolor y llévalas a la próxima consulta. Empieza por la que nadie te ha preguntado nunca."}},{"id":"CPT-00603","secciones":{"explicacion_paciente":"En la primera visita solemos preguntar dónde duele y cuánto.\n\nEs información útil, y no es la más importante para el plan.\n\nLo que más nos ayuda es saber qué has dejado de hacer.\n\nQué actividad has abandonado, qué haces a medias y qué haces pagando un precio después.\n\nEso nos dice por dónde empezar, y nos da una forma de comprobar si vas mejor.\n\nPorque puedes ir mejorando aunque el dolor tarde en bajar: si haces más cosas, algo se está moviendo.\n\nLo que puedes hacer hoy: escribe tres cosas que hayas dejado por el dolor y ordénalas por lo que te importan. Esa lista vale más que un número."}},{"id":"CPT-00604","secciones":{"explicacion_paciente":"Una valoración no es un examen que te hacen: es algo que hacemos contigo.\n\nEso significa tres cosas concretas.\n\nQue lo que tú quieras conseguir cuenta para decidir qué miramos.\n\nQue te vamos a contar qué hemos entendido de tu problema, para que puedas corregirnos.\n\nY que antes de explorarte te diremos qué estamos buscando.\n\nSi en algo de lo que te contamos te reconoces a medias, dilo. Corregirlo temprano ahorra meses.\n\nLo que puedes hacer hoy: piensa qué quieres poder hacer dentro de tres meses y llévalo dicho. Es el dato que más cambia una valoración."}},{"id":"CPT-00605","secciones":{"explicacion_paciente":"Cuando se usa una prueba o un cuestionario, hay tres cosas que conviene que cumpla.\n\nQue salga igual si se repite. Que mida de verdad lo que dice medir. Y que sirva para decidir algo.\n\nParecen lo mismo y no lo son.\n\nHay pruebas muy repetibles que no informan de nada, y cuestionarios correctos que no cambian nada.\n\nPor eso, si en tu valoración te piden rellenar algo, es razonable preguntar para qué se va a usar.\n\nSi la respuesta es «para tener un registro», tienes derecho a saberlo.\n\nLo que puedes hacer hoy: nada en particular. Este concepto está aquí para que quien te atienda pueda justificar lo que te pide."}},{"id":"CPT-00606","secciones":{"explicacion_paciente":"Que en una prueba se vea algo no significa que eso sea la causa de tu dolor.\n\nPara pensar que lo es, hacen falta tres cosas.\n\nQue no sea algo que tenga también mucha gente sin dolor. Y muchas cosas que se ven lo son.\n\nQue encaje con tu historia: con dónde te duele, con cuándo empezó, con qué te lo cambia.\n\nY que sirva para predecir algo, para poder comprobar si acertamos.\n\nSi no se puede comprobar, no es una explicación: es una suposición con nombre técnico.\n\nLo que puedes hacer hoy: si te dicen que la causa es X, pregunta qué esperarían ver si eso fuera cierto. Es una pregunta muy buena y ordena el plan."}},{"id":"CPT-00607","secciones":{"explicacion_paciente":"Volver a valorarte no es empezar de cero ni desconfiar de lo anterior.\n\nEn la primera visita hacemos una idea de lo que te pasa y decimos qué esperaríamos ver si acertamos.\n\nEn la siguiente comprobamos si eso ha ocurrido.\n\nSi ha ocurrido, seguimos. Si no, cambiamos de idea, y eso es buena señal, no un fallo.\n\nPor eso a veces te preguntamos cosas que parecen repetidas: estamos comparando, no rellenando otra vez.\n\nY si algo nuevo ha aparecido, es el momento de decirlo aunque parezca menor.\n\nLo que puedes hacer hoy: apunta una cosa concreta que hoy no puedes hacer. En la próxima visita la miramos, y así sabremos si algo se ha movido."}},{"id":"CPT-00608","secciones":{"explicacion_paciente":"Llega un momento en que seguir buscando no ayuda.\n\nEse momento es cuando ninguna prueba nueva cambiaría lo que vamos a hacer.\n\nY hay que decirlo claro, porque seguir buscando tiene precio.\n\nCada prueba de más alarga la espera, refuerza la idea de que la respuesta está en una foto y retrasa empezar.\n\nEso no significa que no te pase nada, y nadie debería decirte esa frase.\n\nSignifica que no hemos encontrado nada que obligue a buscar más hoy, y que hay cosas que sí podemos hacer.\n\nSi aparece algo nuevo, se vuelve a mirar. Cerrar no es cerrar para siempre.\n\nLo que puedes hacer hoy: si te dicen que no hacen falta más pruebas, pide que te digan tres cosas —qué han descartado, qué queda sin saber y qué se va a hacer ahora—."}},{"id":"CPT-00609","secciones":{"explicacion_paciente":"Conviene decirte con claridad qué puede y qué no puede darte una valoración.\n\nEn la mayoría de los dolores que duran, no vamos a poder señalar una causa única. No porque no se busque bien, sino porque casi nunca la hay.\n\nTampoco podemos predecir con exactitud cómo va a evolucionar lo tuyo.\n\nY ninguna prueba va a hacer que te sientas comprendido: eso se consigue hablando, no midiendo.\n\nLo que sí podemos hacer es descartar lo que hay que descartar, entender qué mantiene tu problema y empezar por algún sitio.\n\nY comprobar juntos si funciona, con una fecha.\n\nSaber la causa exacta ayuda menos de lo que parece. Poder hacer algo, ayuda más.\n\nLo que puedes hacer hoy: si estás esperando una prueba que lo explique todo, pregúntate qué harías distinto si el resultado llegara mañana. Muchas veces la respuesta señala por dónde empezar ya."}},{"id":"CPT-00610","secciones":{"explicacion_paciente":"Lo que nos cuentas es la parte más importante de la valoración.\n\nMás que una radiografía, y más que cualquier prueba.\n\nPorque hay cosas que solo tú sabes: cómo empezó, qué has probado, qué has dejado de hacer, qué te preocupa.\n\nNada de eso sale en una imagen.\n\nPor eso conviene que vengas con lo importante pensado, y que no des por hecho que algo «no viene a cuento».\n\nSi tienes dudas de si contarlo, cuéntalo.\n\nLo que puedes hacer hoy: escribe en dos líneas lo que más te importa resolver. Es lo primero que conviene decir en la consulta, no lo último."}},{"id":"CPT-00611","secciones":{"explicacion_paciente":"Al principio de la consulta te van a preguntar qué te trae.\n\nAhí conviene decir todo lo que traes, aunque sean tres cosas.\n\nSe ha estudiado y suele pasar que, en cuanto dices la primera, te interrumpen.\n\nOcurre en unos once segundos, y no es mala intención: es la prisa por empezar a acotar.\n\nSi te interrumpen, puedes decir tranquilamente: «espera, que traía dos cosas más».\n\nNadie tarda mucho en enunciar sus preocupaciones: en los estudios, seis segundos de media.\n\nLo que puedes hacer hoy: apunta en el móvil las cosas que traes a la próxima consulta y dilas todas al principio, no al final."}},{"id":"CPT-00612","secciones":{"explicacion_paciente":"La mayoría de las personas no cuenta en la consulta todo lo que trae.\n\nY lo que se queda dentro no suele ser lo menos importante.\n\nSe callan los miedos —lo que uno teme que sea—, las ideas propias sobre qué está pasando y lo que está complicando la vida fuera de la consulta.\n\nTambién se calla, muchas veces, que uno no quiere un tratamiento que le están proponiendo.\n\nEso pasa factura después: se entiende mal el plan, o se hace a medias, o no se hace.\n\nNo es que se oculte a propósito. Es que nadie lo pregunta y uno no sabe si viene a cuento.\n\nLo que puedes hacer hoy: escribe qué temes que sea tu problema. Aunque te parezca exagerado, es una de las cosas más útiles que puedes llevar dicho."}},{"id":"CPT-00613","secciones":{"explicacion_paciente":"Si has salido alguna vez de una consulta con la sensación de que no te creían, no eres una excepción.\n\nEs una experiencia muy común en dolor persistente, y tiene consecuencias.\n\nLa principal es que uno deja de contar cosas: aprende a decir lo justo para que le tomen en serio.\n\nY así la información que llega al profesional es peor, y las decisiones también.\n\nPor eso conviene decirlo. Si te ha pasado, cuéntalo al principio.\n\nAquí el punto de partida es que lo que sientes es real, se encuentre o no se encuentre algo en las pruebas.\n\nLo que puedes hacer hoy: si alguna frase de un profesional te dolió especialmente, escríbela. Llevarla dicha ahorra media consulta."}},{"id":"CPT-00614","secciones":{"explicacion_paciente":"En la consulta nos suelen preguntar cuánto duele y desde cuándo.\n\nEs útil, y no es lo que más ayuda a decidir.\n\nLo que más ayuda es la historia de lo que ha cambiado en tu vida.\n\nQué dejaste primero, qué vino después, qué te costó más dejar.\n\nY una pregunta que casi nadie hace: cuándo dejaste de intentar volver a ello.\n\nEso dibuja mejor tu problema que una curva de dolor, y señala por dónde se puede empezar.\n\nLo que puedes hacer hoy: haz una lista de tres cosas que dejaste, con el año aproximado. Esa lista vale para toda la valoración."}},{"id":"CPT-00615","secciones":{"explicacion_paciente":"Para entender tu problema hace falta saber en qué orden pasaron las cosas.\n\nNo hace falta que recuerdes fechas exactas: el orden importa más que el día.\n\nY no solo del dolor. También de lo demás.\n\nCuándo cambiaste de trabajo, cuándo te dieron aquel resultado, cuándo dejaste de salir.\n\nMuchas veces, al ponerlo en orden, aparecen relaciones que no se ven de otra manera.\n\nSi tienes una idea de qué lo provocó, dila. Es información importante, la compartamos o no.\n\nLo que puedes hacer hoy: escribe cinco momentos con el año aproximado. Con eso basta para tener una línea del tiempo útil."}},{"id":"CPT-00616","secciones":{"explicacion_paciente":"Cuando dices «esto ya lo probé», nos hace falta un poco más de detalle.\n\nQué hiciste exactamente, cuánto, durante cuánto tiempo y qué esperabas que pasara.\n\nNo es desconfianza: es que la mayoría de las cosas que «no funcionan» se hicieron a medias o se dejaron pronto.\n\nY hay una pregunta que cambia mucho: qué esperabas.\n\nSi esperabas que el dolor desapareciera y bajó un poco, quizá lo apuntaste como fracaso siendo una respuesta.\n\nCon esos datos evitamos repetirte lo mismo y perder meses.\n\nLo que puedes hacer hoy: haz una lista de lo que has probado, con cuánto tiempo lo hiciste y por qué lo dejaste. Es de lo más útil que puedes llevar."}},{"id":"CPT-00617","secciones":{"explicacion_paciente":"Que te duela otra vez en el mismo sitio no significa siempre lo mismo.\n\nA veces es un bache de lo de siempre. A veces es algo distinto.\n\nDistinguirlo no se hace con una prueba: se hace preguntando.\n\nY tu impresión cuenta mucho: si te parece que esto «es distinto a lo de siempre», dilo.\n\nLo que hace saltar las alarmas no es que duela más, sino que duela de otra manera o que haya aparecido algo nuevo.\n\nSi es un bache de lo conocido, no hay que empezar de cero.\n\nLo que puedes hacer hoy: si tienes un empeoramiento, apunta si se parece a los anteriores o no, y qué hay de distinto."}},{"id":"CPT-00618","secciones":{"explicacion_paciente":"Casi todo el mundo llega a la consulta con una idea de lo que le pasa.\n\nEsa idea nos importa, y bastante. No es una molestia ni una tontería.\n\nNos dice qué estás evitando y por qué, y nos ayuda a explicarte las cosas de manera que te encajen.\n\nPor eso te vamos a preguntar qué crees tú que está pasando.\n\nNo es un examen y no hay respuesta ridícula: si la has oído en algún sitio, cuéntalo también.\n\nSi al final resulta que hay que matizarla, lo hablamos, y no será desmintiéndote sin más.\n\nLo que puedes hacer hoy: escribe en una frase qué crees que te pasa. Con tus palabras, no con las del informe."}},{"id":"CPT-00619","secciones":{"explicacion_paciente":"Casi todo el mundo que tiene dolor durante tiempo tiene algún miedo en la cabeza.\n\nMiedo a que sea algo grave, o a acabar como alguien que conoce, o a no poder seguir trabajando.\n\nEso casi nunca se dice en consulta, y es una pena, porque es de lo más útil que se puede hablar.\n\nNo es exagerar ni ser aprensivo: es normal y es información.\n\nSi nadie te lo pregunta, puedes decirlo tú: «hay algo que me preocupa y no sé si es una tontería».\n\nY si te lo preguntan, conviene ser concreto: no es lo mismo temer una enfermedad que temer perder el trabajo.\n\nLo que puedes hacer hoy: escribe el peor escenario que se te pasa por la cabeza. Ponerlo en palabras suele hacerlo más manejable, y permite responderlo."}},{"id":"CPT-00620","secciones":{"explicacion_paciente":"La forma en que describes tu dolor nos dice mucho.\n\nNo por cómo hablas, sino por lo que imaginas que está pasando dentro.\n\nNo es lo mismo «me tira» que «se me sale» o «lo tengo desgastado»: cada expresión dibuja algo distinto.\n\nPor eso a veces te preguntamos qué te imaginas exactamente cuando dices una de esas frases.\n\nY por eso intentamos explicarte las cosas con tus palabras y no con las nuestras.\n\nSi algo que te decimos suena a idioma de hospital y no te dice nada, dilo.\n\nLo que puedes hacer hoy: fíjate en la frase que más usas para describir tu dolor. Y pregúntate qué imagen tienes en la cabeza cuando la dices."}},{"id":"CPT-00621","secciones":{"explicacion_paciente":"Lo que te han dicho otros profesionales cuenta, y nos interesa saberlo.\n\nNo para juzgar a nadie, sino porque esas frases se quedan y cambian lo que uno hace.\n\nHay gente que lleva diez años sin agacharse porque una vez le dijeron que no lo hiciera.\n\nY muchas veces esa recomendación era para dos semanas, no para siempre.\n\nPor eso te vamos a preguntar qué te han dicho y si hay alguna frase que se te quedó grabada.\n\nTambién qué te prohibieron, porque las prohibiciones casi nunca se retiran.\n\nLo que puedes hacer hoy: escribe la frase que más se te haya quedado de un profesional, con el año. Es un dato clínico, aunque no lo parezca."}},{"id":"CPT-00622","secciones":{"explicacion_paciente":"Vamos a hacer un mapa sencillo de tu problema, en tres columnas.\n\nQué te lo empeora. Qué te lo alivia. Y qué has dejado de hacer para no empeorar.\n\nLa tercera es la que menos se pregunta y la que más nos sirve.\n\nNo es una lista de errores: dejar de hacer cosas cuando algo duele es lo más razonable del mundo.\n\nLo que pasa es que, con el tiempo, algunas de esas renuncias dejan de ayudar y empiezan a costar.\n\nTambién nos interesa lo que haces aunque lo pagues después. Ese patrón es importante.\n\nLo que puedes hacer hoy: escribe las tres columnas con tres cosas en cada una. Con eso ya tenemos por dónde empezar."}},{"id":"CPT-00623","secciones":{"explicacion_paciente":"Para saber cómo te afecta el dolor, no vale con preguntarte «cómo lo llevas».\n\nVamos a ir por partes: trabajo, sueño, vida social, actividad y cuidados.\n\nDe cada una nos interesan dos cosas: qué queda de lo que hacías y qué hace que un día sea mejor o peor.\n\nEl sueño merece atención aparte, porque va en los dos sentidos: el dolor lo estropea y dormir mal lo empeora.\n\nY los cuidados también: si cuidas de alguien, eso ocupa un espacio que casi nunca se pregunta.\n\nNo es curiosidad: de ahí salen los objetivos concretos del plan.\n\nLo que puedes hacer hoy: elige el dominio que más te pesa ahora mismo y llévalo señalado. Por ahí conviene empezar."}},{"id":"CPT-00624","secciones":{"explicacion_paciente":"Vamos a preguntarte por tu trabajo y por cómo te afecta económicamente esto.\n\nNo es curiosidad ni es para juzgarte: es para no proponerte cosas que no puedas hacer.\n\nNos interesa qué haces exactamente durante el día, cuánto puedes cambiarlo y qué pasa si faltas.\n\nY también qué te cuesta a ti venir aquí, en tiempo y en dinero.\n\nUn plan que no encaja con tu vida no es un buen plan, por muy correcto que sea sobre el papel.\n\nSi algo de lo que te proponemos es inviable, dilo. Se cambia.\n\nLo que puedes hacer hoy: piensa qué margen real tienes en tu jornada. Aunque sea pequeño, por ahí se empieza."}},{"id":"CPT-00625","secciones":{"explicacion_paciente":"Hay dos preguntas que casi nunca se hacen y que aquí sí vamos a hacerte.\n\nCon quién cuentas tú cuando esto se pone difícil.\n\nY si hay alguien que depende de ti: hijos, padres, alguien a quien cuidas.\n\nLo segundo cambia mucho el plan. Si cuidas de alguien, no puedes permitirte estar peor unos días.\n\nEso hay que tenerlo en cuenta desde el principio, no descubrirlo cuando algo no ha funcionado.\n\nY si has dejado de contar en casa cómo estás, también es útil saberlo.\n\nLo que puedes hacer hoy: piensa a quién cuidas y cuántas horas al día te lleva. Aunque sea «lo de siempre», cuenta."}},{"id":"CPT-00626","secciones":{"explicacion_paciente":"Antes de terminar, quien te atiende debería resumirte lo que ha entendido.\n\nQué te pasa, qué te preocupa, qué quieres conseguir y qué queda por aclarar.\n\nY después debería preguntarte qué ha entendido mal.\n\nEsa pregunta es importante: significa que se da por hecho que algo se ha quedado fuera, y te da permiso para corregir.\n\nSi el resumen no te suena a lo tuyo, dilo aunque parezca un detalle.\n\nEs mucho más fácil arreglarlo ahí que tres meses después.\n\nLo que puedes hacer hoy: si nadie te resume nada, pídelo tú. «¿Me puedes decir qué has entendido?» es una pregunta perfectamente legítima."}},{"id":"CPT-00627","secciones":{"explicacion_paciente":"Una buena conversación en consulta da mucho, y no lo da todo.\n\nNo garantiza que salga todo lo importante: a veces hace falta más de una visita, y no pasa nada.\n\nNo sustituye a explorarte ni a descartar lo que haya que descartar.\n\nY no arregla en un día la desconfianza de años, si la hay.\n\nTampoco cambia tus circunstancias: si tu trabajo es duro, saberlo nos sirve para no proponerte imposibles, no para hacerlo desaparecer.\n\nLo que sí hace es reunir lo que hace falta para decidir contigo por dónde empezar.\n\nLo que puedes hacer hoy: si algo importante no salió en la consulta, apúntalo para la siguiente. No hace falta que salga todo el primer día."}}],"panelista":"PAC-02","feedback":{},"envio":{"url":"https://mmwytewpfnckymjxldye.supabase.co/rest/v1/respuestas_consenso","cabeceras":{"apikey":"sb_publishable_PsEfAcuH5Q3UMMff7HlhFA_mDQlvzpl","Authorization":"Bearer sb_publishable_PsEfAcuH5Q3UMMff7HlhFA_mDQlvzpl","Prefer":"return=minimal"},"envolver":"payload"}};
 const U = DATOS.umbrales;
 const PORC = x => Math.round(x * 100) + ' %';
 // Coma decimal: este cuaderno lo lee un panel en español y los umbrales son lo primero
@@ -498,6 +562,11 @@ function pintarCola() {
   document.getElementById('avance-txt').textContent = pac
     ? hechos + ' de ' + total + ' textos leídos'
     : hechos + ' de ' + total + ' valorados';
+  document.getElementById('barra-global').style.width =
+    (total ? hechos / total * 100 : 0) + '%';
+  document.getElementById('contador').textContent = pac
+    ? `Texto ${EST.abierto + 1} de ${total}`
+    : `Concepto ${EST.abierto + 1} de ${total}`;
 
   const vs = visibles();
   document.getElementById('cola').innerHTML = vs.length ? vs.map(([x, i]) => `
@@ -609,7 +678,15 @@ function pintarJuicio() {
   const x = c(EST.abierto);
   if (!x) { document.getElementById('juicio').innerHTML = ''; return; }
   document.getElementById('juicio').innerHTML =
-    (EST.perfil === 'paciente' ? formPaciente(x) : formExperto(x)) + comunes(x);
+    (EST.perfil === 'paciente'
+      ? `<p class="titulo">Tu lectura</p>
+         <p class="entrada">Tres preguntas sobre el texto de la izquierda. No hay respuestas
+            que queden mal: lo que no funciona es el texto.</p>` + formPaciente(x)
+      : `<p class="titulo">Validación experta</p>
+         <p class="entrada">¿Cumple este concepto los criterios de la base de conocimiento?
+            Puntúa las tres dimensiones; abstente en las que caigan fuera de tu ámbito.</p>`
+        + formExperto(x))
+    + comunes(x);
   cablearJuicio(x);
 }
 
