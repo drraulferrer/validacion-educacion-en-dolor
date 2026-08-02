@@ -928,11 +928,11 @@ function pintarCola() {
 const SECCIONES = {
   experta:  [['definicion','Definición'], ['resumen','Resumen'],
              ['explicacion_profesional','Explicación profesional'],
-             ['puntos_clave','Puntos clave'], ['advertencias_uso','Advertencias de uso']],
+             ['puntos_clave','Puntos clave'], ['advertencias','Advertencias de uso']],
   interna:  [['definicion','Definición'], ['resumen','Resumen'],
              ['explicacion_profesional','Explicación profesional'],
              ['explicacion_paciente','Explicación paciente'],
-             ['puntos_clave','Puntos clave'], ['advertencias_uso','Advertencias de uso']],
+             ['puntos_clave','Puntos clave'], ['advertencias','Advertencias de uso']],
   paciente: [['explicacion_paciente','']],
 };
 
@@ -1301,6 +1301,7 @@ function fuentes(x) {
           ${r.url && !r.doi && !r.pmid ? `<a href="${esc(r.url)}" target="_blank" rel="noopener">fuente</a> · ` : ''}
           <span class="cod">${esc(r.id)}</span>${r.verificada ? '' : ' · <b>sin verificar</b>'}
         </div>
+        ${r.aviso ? `<div class="meta"><b>⚠ ${esc(r.aviso)}</b></div>` : ''}
         ${r.nota ? `<div class="nota">${enlinea(r.nota)}</div>` : ''}
       </div></div>`).join('')}</div>`;
 }
